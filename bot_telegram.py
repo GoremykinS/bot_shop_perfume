@@ -188,7 +188,7 @@ def get_text_messages(message):
 
 
 
-
+# логировать даные пользователя (телефон)
     if message.text == 'посчитать':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton(text="Оставить контактный телефон", request_contact=True)
