@@ -1,5 +1,12 @@
 import telebot
 from telebot import types
+import logging
+
+# логирование
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
+                    level=logging.INFO,
+                    filename='bot.log'
+                    )
 
 # цена порфюма
 price1_1, price1_2, price1_3 = 1, 2, 3
@@ -17,7 +24,8 @@ bot = telebot.TeleBot("6063112911:AAEI-eOtXPoLN6uxO1B_M_BviJwgHzHlauk")
 
 @bot.message_handler(commands=['start'])
 def start(message):
-
+    # логирование
+    logging.info('---------------')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("👋 Поздороваться")
     markup.add(btn1)
@@ -28,14 +36,24 @@ def get_text_messages(message):
     global sum1_1, sum1_2, sum1_3,sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3
     global id_product, total_sum
     global volume1, volume2, volume3
+
     if message.text == '👋 Поздороваться':
         sum1_1, sum1_2, sum1_3,sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3 = 0,0,0,0,0,0,0,0,0
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1 = types.KeyboardButton('Отзывы')
         btn2 = types.KeyboardButton('Как со мной связаться')
         btn3 = types.KeyboardButton('Ассортимент')
+        # btn4 = types.KeyboardButton(text="Контактный телефон", request_contact=True)
+        #
+        # @bot.message_handler(content_types=['contact'])
+        # def contact(message):
+        #     if message.contact is not None:
+        #         logging.info(message.contact.phone_number)
+
         markup.add(btn1, btn2, btn3)
         bot.send_message(message.from_user.id, '❓ Задайте интересующий вас вопрос', reply_markup=markup)
+
+
 
 
     elif message.text == 'Отзывы':
@@ -161,5 +179,32 @@ def get_text_messages(message):
         if sum3_1 + sum3_2 + sum3_3 > 0:
             bot.send_message(message.from_user.id, 'объем Memo Kedu = ' + str(volume3) + ' ml стоимостью ' + str(sum3_1 + sum3_2 + sum3_3) + ' руб',
                          parse_mode='Markdown')
+        if sum1_1 + sum1_2 + sum1_3 > 0:
+            logging.info('объем Amouage Sunshine = ' + str(volume1) + ' ml стоимостью ' + str(sum1_1 + sum1_2 + sum1_3) + ' руб')
+        if sum2_1 + sum2_2 + sum2_3 > 0:
+                logging.info('объем M-A Barrois Ganymede = ' + str(volume2) + ' ml стоимостью ' + str(sum2_1 + sum2_2 + sum2_3) + ' руб')
+        if sum3_1 + sum3_2 + sum3_3 > 0:
+                logging.info('объем Memo Kedu = ' + str(volume3) + ' ml стоимостью ' + str(sum3_1 + sum3_2 + sum3_3) + ' руб')
+
+
+
+
+    if message.text == 'посчитать':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton(text="Оставить контактный телефон", request_contact=True)
+        btn2 = types.KeyboardButton('к списку ароматов')
+        @bot.message_handler(content_types=['contact'])
+        def contact(message):
+            if message.contact is not None:
+                logging.info(message.contact.phone_number)
+        markup.add(btn1,btn2 )
+        bot.send_message(message.from_user.id, 'Заказ учтен! Оставьте контакный телефон (кнопка ниже) и '
+                                               ' Мы с вами свяжемся', reply_markup=markup)
+
+
+
+
+
+
 
 bot.polling(none_stop=True, interval=0)
