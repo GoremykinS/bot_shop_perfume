@@ -13,6 +13,13 @@ price1_1, price1_2, price1_3 = 1, 2, 3
 price2_1, price2_2, price2_3 = 10, 20, 30
 price3_1, price3_2, price3_3 = 100, 200, 300
 
+
+
+
+list_1 = []
+list_2 = []
+list_3 = []
+
 sum1_1, sum1_2, sum1_3,sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3 = 0,0,0,0,0,0,0,0,0
 volume1, volume2, volume3 = 0,0,0
 id_product = 0
@@ -36,6 +43,8 @@ def get_text_messages(message):
     global sum1_1, sum1_2, sum1_3,sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3
     global id_product, total_sum
     global volume1, volume2, volume3
+    global list_1, list_2, list_3
+
 
     if message.text == '👋 Поздороваться':
         sum1_1, sum1_2, sum1_3,sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3 = 0,0,0,0,0,0,0,0,0
@@ -87,16 +96,19 @@ def get_text_messages(message):
 
 
     if message.text == '2 ml' and id_product == 1:
+        list_1.append('2ml')
         volume1 += 2
         sum1_1 += price1_1
         bot.send_message(message.from_user.id, '+ 2 ml за '+ str(price1_1) +' руб')
 
     if message.text == '5 ml' and id_product == 1:
+        list_1.append('5ml')
         volume1 += 5
         sum1_2 += price1_2
         bot.send_message(message.from_user.id, '+ 5 ml за '+ str(price1_2) +' руб')
 
     if message.text == '10 ml' and id_product == 1:
+        list_1.append('10ml')
         volume1 += 10
         sum1_3 += price1_3
         bot.send_message(message.from_user.id, '+ 10 ml за '+ str(price1_3) +' руб')
@@ -116,16 +128,19 @@ def get_text_messages(message):
 
 
     if message.text == '2 ml' and id_product == 2:
+        list_2.append('2ml')
         volume2 += 2
         sum2_1 += price2_1
         bot.send_message(message.from_user.id, '+ 2 ml за '+ str(price2_1) +' руб')
 
     if message.text == '5 ml' and id_product == 2:
+        list_2.append('5ml')
         volume2 += 5
         sum2_2 += price2_2
         bot.send_message(message.from_user.id, '+ 5 ml за '+ str(price2_2) +' руб')
 
     if message.text == '10 ml' and id_product == 2:
+        list_2.append('10ml')
         volume2 += 10
         sum2_3 += price2_3
         bot.send_message(message.from_user.id, '+ 10 ml за '+ str(price2_3) +' руб')
@@ -148,16 +163,19 @@ def get_text_messages(message):
 
 
     if message.text == '2 ml' and id_product == 3:
+        list_3.append('2ml')
         volume3 += 2
         sum3_1 += price3_1
         bot.send_message(message.from_user.id, '+ 2 ml за '+ str(price3_1) +' руб')
 
     if message.text == '5 ml' and id_product == 3:
+        list_3.append('5ml')
         volume3 += 5
         sum3_2 += price3_2
         bot.send_message(message.from_user.id, '+ 5 ml за '+ str(price3_2) +' руб')
 
     if message.text == '10 ml' and id_product == 3:
+        list_3.append('10ml')
         volume3 += 10
         sum3_3 += price3_3
         bot.send_message(message.from_user.id, '+ 10 ml за '+ str(price3_3) +' руб')
@@ -165,6 +183,7 @@ def get_text_messages(message):
     if message.text == 'передумал':
         sum1_1, sum1_2, sum1_3, sum2_1, sum2_2, sum2_3, sum3_1, sum3_2, sum3_3 = 0,0,0,0,0,0,0,0,0
         volume1, volume2, volume3 = 0, 0, 0
+        list_1, list_2, list_3 = [], [], []
         bot.send_message(message.from_user.id, 'стоимость заказа = 0 руб', parse_mode='Markdown')
 
     if message.text == 'посчитать':
@@ -180,18 +199,15 @@ def get_text_messages(message):
             bot.send_message(message.from_user.id, 'объем Memo Kedu = ' + str(volume3) + ' ml стоимостью ' + str(sum3_1 + sum3_2 + sum3_3) + ' руб',
                          parse_mode='Markdown')
         if sum1_1 + sum1_2 + sum1_3 > 0:
-            logging.info('объем Amouage Sunshine = ' + str(volume1) + ' ml стоимостью ' + str(sum1_1 + sum1_2 + sum1_3) + ' руб')
+            logging.info('объем Amouage Sunshine = ' + str(volume1) + str(list_1) + ' ml стоимостью ' + str(sum1_1 + sum1_2 + sum1_3) + ' руб')
         if sum2_1 + sum2_2 + sum2_3 > 0:
-                logging.info('объем M-A Barrois Ganymede = ' + str(volume2) + ' ml стоимостью ' + str(sum2_1 + sum2_2 + sum2_3) + ' руб')
+                logging.info('объем M-A Barrois Ganymede = ' + str(volume2) + str(list_2) + ' ml стоимостью ' + str(sum2_1 + sum2_2 + sum2_3) + ' руб')
         if sum3_1 + sum3_2 + sum3_3 > 0:
-                logging.info('объем Memo Kedu = ' + str(volume3) + ' ml стоимостью ' + str(sum3_1 + sum3_2 + sum3_3) + ' руб')
-
-
+                logging.info('объем Memo Kedu = ' + str(volume3) + str(list_3) + ' ml стоимостью ' + str(sum3_1 + sum3_2 + sum3_3) + ' руб')
 
 # логировать даные пользователя (телефон)
-    if message.text == 'посчитать':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1 = types.KeyboardButton(text="Оставить контактный телефон", request_contact=True)
+        btn1 = types.KeyboardButton(text="контактный телефон", request_contact=True)
         btn2 = types.KeyboardButton('к списку ароматов')
         @bot.message_handler(content_types=['contact'])
         def contact(message):
@@ -199,7 +215,7 @@ def get_text_messages(message):
                 logging.info(message.contact.phone_number)
         markup.add(btn1,btn2 )
         bot.send_message(message.from_user.id, 'Заказ учтен! Оставьте контакный телефон (кнопка ниже) и '
-                                               ' Мы с вами свяжемся', reply_markup=markup)
+                                               ' мы с вами свяжемся', reply_markup=markup)
 
 
 
